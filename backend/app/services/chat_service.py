@@ -8,7 +8,7 @@ client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-def get_ai_response(message: str):
+def get_ai_response(messages):
     try:
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
@@ -17,10 +17,7 @@ def get_ai_response(message: str):
                     "role": "system",
                     "content": "You are a professional AI assistant for a digital agency. Give clear, business-oriented responses."
                 },
-                {
-                    "role": "user",
-                    "content": message
-                }
+                *messages  # 👈 this adds full conversation
             ]
         )
 
