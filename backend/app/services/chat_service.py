@@ -3,16 +3,16 @@ import requests
 from dotenv import load_dotenv
 
 from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, SystemMessage
 
-from app.services.rag_service import get_rag_response
+# 👉 Import YOUR pipeline (IMPORTANT)
+from app.ai.rag_pipeline import get_ai_response as rag_pipeline_response
 
 load_dotenv()
 
-# Initialize LLM
+# Initialize LLM (still used for other flows if needed)
 llm = ChatGroq(
     groq_api_key=os.getenv("GROQ_API_KEY"),
-    model="llama-3.1-8b-instant"
+    model="llama3-70b-8192"
 )
 
 
@@ -45,7 +45,7 @@ def call_prediction_api():
         response = requests.get("http://localhost:8002/api/predict")
         return response.json()
     except:
-        return {"error": "Prediction service not available"}
+        return {"error": "Prediction service not available. Please try again later."}
 
 
 # ✅ Main Chat Function
@@ -58,14 +58,14 @@ def get_ai_response(messages: list):
         intent = detect_intent(user_query)
 
         # ===============================
-        # 🔥 ROUTING LOGIC (CORE FEATURE)
+        # 🔥 ROUTING LOGIC
         # ===============================
 
         if intent == "sentiment":
             data = call_sentiment_api()
 
             if "error" in data:
-                return "Sentiment service is currently unavailable."
+                return "Sentiment service is currently unavailable. Please try again later."
 
             return f"📊 Sentiment Analysis Result:\n{data}"
 
@@ -78,27 +78,7 @@ def get_ai_response(messages: list):
             return f"📈 Prediction Result:\n{data}"
 
         else:
-            # 🔹 RAG + LLM (default flow)
-            context = get_rag_response(user_query)
-
-            system_prompt = f"""
-You are an AI assistant for Adrite Agency.
-
-Use the following context to answer the user:
-
-{context}
-
-If the answer is not in the context, say politely you don't know.
-"""
-
-            formatted_messages = [
-                SystemMessage(content=system_prompt),
-                HumanMessage(content=user_query)
-            ]
-
-            response = llm.invoke(formatted_messages)
-
-            return response.content
+           return rag_pipeline_response(user_query)
 
     except Exception as e:
         return f"Error: {str(e)}"

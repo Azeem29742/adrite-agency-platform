@@ -1,3 +1,4 @@
+from app.utils.response import success_response, error_response
 from app.services.ai_service import analyze_sentiment, predict_intent
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -26,32 +27,40 @@ def chat(request: ChatRequest):
         # Convert Pydantic objects to dict
         messages = [msg.dict() for msg in request.messages]
 
+        # ✅ Input validation
+        if not messages:
+            raise ValueError("Messages list is empty")
+
+        if "content" not in messages[-1] or not messages[-1]["content"].strip():
+            raise ValueError("User message is empty")
+
         # ✅ Extract latest user query
         query = messages[-1]["content"]
 
-        # ✅ Detect intent (Step 2)
+        # ✅ Detect intent
         intent = detect_intent(query)
 
         # ✅ Generate AI response
         ai_response = get_ai_response(messages)
 
-        return {
-            "success": True,
-            "message": "Response generated successfully",
-            "data": {
-                "intent": intent,  # (optional but good for debugging/demo)
-                "conversation": messages,
-                "ai_response": ai_response
-            }
-        }
+        return success_response(
+        "Response generated successfully",
+        {"answer": ai_response}
+)
+
+    except ValueError as ve:
+        return error_response(str(ve))
 
     except Exception as e:
-        return {
-            "success": False,
-            "message": str(e),
-            "data": None
-        }
-    
+        print("ERROR:", str(e))  # ✅ internal log
+
+    return {
+        "success": False,
+        "message": "Something went wrong. Please try again.",
+        "data": None
+    }
+
+
 # -----------------------------
 # New Request Schema for AI APIs
 # -----------------------------
@@ -60,12 +69,16 @@ class TextRequest(BaseModel):
 
 
 # -----------------------------
-# Sentiment API (NEW)
+# Sentiment API
 # -----------------------------
 @router.post("/sentiment")
 def sentiment_analysis(request: TextRequest):
     try:
+        if not request.text.strip():
+            raise ValueError("Text cannot be empty")
+
         sentiment = ai_service.analyze_sentiment(request.text)
+
         return {
             "success": True,
             "message": "Sentiment analyzed successfully",
@@ -76,19 +89,24 @@ def sentiment_analysis(request: TextRequest):
         }
 
     except Exception as e:
+        print("ERROR:", str(e))
+
         return {
             "success": False,
-            "message": str(e),
+            "message": "Something went wrong. Please try again.",
             "data": None
         }
 
 
 # -----------------------------
-# Prediction API (NEW)
+# Prediction API
 # -----------------------------
 @router.post("/predict")
 def prediction(request: TextRequest):
     try:
+        if not request.text.strip():
+            raise ValueError("Text cannot be empty")
+
         prediction = ai_service.predict_intent(request.text)
 
         return {
@@ -101,12 +119,15 @@ def prediction(request: TextRequest):
         }
 
     except Exception as e:
+        print("ERROR:", str(e))
+
         return {
             "success": False,
-            "message": str(e),
+            "message": "Something went wrong. Please try again.",
             "data": None
         }
-    
+
+
 @router.get("/check")
 def check():
     return {"status": "ok"}
