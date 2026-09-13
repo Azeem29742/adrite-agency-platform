@@ -67,40 +67,131 @@ An AI-powered backend system built with **FastAPI** that combines **Retrieval-Au
 
 ## 🛠 Tech Stack
 
-- Python
-- FastAPI
-- LangChain
-- Groq LLM (LLaMA 3)
-- FAISS
-- HuggingFace Embeddings
+## 🛠 Tech Stack
+
+### Backend
+- 🐍 **Python**
+- ⚡ **FastAPI**
+- 🔗 **REST APIs**
+
+### AI & LLM
+- 🧠 **LangChain**
+- 🤖 **Groq LLM (LLaMA 3)**
+- 🔤 **HuggingFace Embeddings**
+
+### RAG & Vector Search
+- 🔎 **Retrieval-Augmented Generation (RAG)**
+- 📚 **FAISS Vector Search**
 
 ---
 
 ## 📡 API Endpoints
 
-### Chat
-POST `/api/v1/chat/`
+| Feature | Method | Endpoint |
+|---|---|---|
+| 💬 Chat | `POST` | `/api/v1/chat/` |
+| 📊 Sentiment Analysis | `POST` | `/sentiment` |
+| 🔮 Intent Prediction | `POST` | `/predict` |
 
-### Sentiment
-POST `/sentiment`
+### 💬 Chat API
 
-### Prediction
-POST `/predict`
+Handles context-aware conversations using:
 
+- User message
+- Previous chat history
+- Retrieved RAG context
+- LLM-generated response
+
+### 📊 Sentiment Analysis API
+
+Analyzes the sentiment of the user's message.
+
+### 🔮 Intent Prediction API
+
+Predicts the intent behind the user's query.
 ---
 
 ## 🧠 How It Works
 
-1. User sends message
-2. System retrieves relevant context (FAISS)
-3. Combines:
-   - Chat history
-   - Retrieved context
-4. LLM generates response
+The system follows a RAG-based workflow to generate context-aware responses:
+
+1. **User sends a query** through the Chat API.
+2. **Chat history is retrieved** to maintain conversational context.
+3. **The query is processed** and used to search the knowledge base.
+4. **FAISS retrieves relevant information** using HuggingFace embeddings.
+5. **Retrieved context and recent conversation history** are combined with the user's query.
+6. **Groq LLaMA 3** processes the combined context.
+7. **The generated response** is returned through the FastAPI endpoint.
+
+### 🔄 RAG Flow
+
+```text
+User Query
+    ↓
+Query Processing
+    ↓
+Embedding Generation
+    ↓
+FAISS Similarity Search
+    ↓
+Relevant Context
+    +
+Chat History
+    ↓
+Groq LLaMA 3
+    ↓
+Context-Aware Response
 
 ---
 
 ## ▶️ Run Locally
 
+### 1. Clone the Repository
+
 ```bash
+git clone https://github.com/Azeem29742/adrite-agency-platform.git
+cd adrite-agency-platform
+2. Create a Virtual Environment
+python -m venv venv
+
+Windows:
+
+venv\Scripts\activate
+
+macOS/Linux:
+
+source venv/bin/activate
+3. Install Dependencies
+pip install -r requirements.txt
+4. Configure Environment Variables
+
+Create a .env file in the project root and add the required API credentials.
+
+Never commit API keys or other secrets to GitHub.
+
+5. Start the FastAPI Server
 uvicorn app.main:app --reload
+
+The API will be available at:
+
+http://127.0.0.1:8000
+📚 Interactive API Documentation
+
+Once the server is running, open:
+
+http://127.0.0.1:8000/docs
+
+## 📌 Project Status
+
+🟢 **Active Development**
+
+The core AI backend, RAG pipeline, conversational context, sentiment analysis, and intent prediction features are implemented.
+
+### 🔮 Future Improvements
+
+- 🔐 Add authentication and authorization
+- 🗃️ Expand and improve the knowledge base
+- 🧪 Add automated tests
+- 📈 Add monitoring and logging
+- 🚀 Prepare the application for production deployment
+- 💬 Improve conversational memory and response quality
