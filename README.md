@@ -1,5 +1,12 @@
 # 🚀 AI Chat Assistant with RAG Pipeline
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![FAISS](https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=for-the-badge)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-Embeddings-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+![Groq](https://img.shields.io/badge/Groq-LLaMA%203-F55036?style=for-the-badge)
+
 An AI-powered backend system built with **FastAPI** that combines **Retrieval-Augmented Generation (RAG)**, conversational chat history, sentiment analysis, and intent prediction to deliver contextual and intelligent responses for Adrite Agency.
 
 ---
@@ -67,8 +74,6 @@ An AI-powered backend system built with **FastAPI** that combines **Retrieval-Au
 
 ## 🛠 Tech Stack
 
-## 🛠 Tech Stack
-
 ### Backend
 - 🐍 **Python**
 - ⚡ **FastAPI**
@@ -84,6 +89,77 @@ An AI-powered backend system built with **FastAPI** that combines **Retrieval-Au
 - 📚 **FAISS Vector Search**
 
 ---
+## 📂 Project Structure
+
+```text
+adrite-agency-platform/
+│
+├── backend/
+│   ├── app/
+│   │   ├── ai/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   └── main.py
+│   │
+│   └── ...
+│
+├── frontend/
+│   └── ...
+│
+├── docs/
+│   └── ...
+│
+├── .gitignore
+├── LICENSE
+└── README.md
+
+## ⭐ Project Highlights
+
+| Capability | Technology |
+|---|---|
+| 🤖 Large Language Model | Groq LLaMA 3 |
+| 🔎 Retrieval-Augmented Generation | FAISS |
+| 🔤 Text Embeddings | HuggingFace |
+| 🧠 AI Orchestration | LangChain |
+| ⚡ Backend API | FastAPI |
+| 💬 Conversational Context | Last 10 messages |
+| 📊 Sentiment Analysis | AI-based analysis |
+| 🔮 Intent Prediction | AI-based classification |
+
+## 🧠 Technical Concepts Demonstrated
+
+- **Retrieval-Augmented Generation (RAG)** for knowledge-grounded responses
+- **Vector similarity search** using FAISS
+- **Text embeddings** using HuggingFace models
+- **LLM integration** with Groq LLaMA 3
+- **Prompt/context construction** using retrieved knowledge and chat history
+- **Conversational memory** using recent messages
+- **REST API development** with FastAPI
+- **Sentiment analysis** for user messages
+- **Intent classification** for query understanding
+- **Modular AI application architecture**
+
+## 🔐 Environment Variables
+
+The application requires API credentials for external AI services.
+
+Create a `.env` file in the appropriate project directory and configure the required environment variables.
+
+Example:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+HUGGINGFACE_API_KEY=your_huggingface_api_key
+
+## 📖 API Documentation
+
+The project uses **FastAPI's interactive Swagger UI** for API testing and documentation.
+
+After running the application locally, open:
+
+**Swagger UI:** `http://127.0.0.1:8000/docs`
+
+**ReDoc:** `http://127.0.0.1:8000/redoc`
 
 ## 📡 API Endpoints
 
@@ -195,3 +271,9 @@ The core AI backend, RAG pipeline, conversational context, sentiment analysis, a
 - 📈 Add monitoring and logging
 - 🚀 Prepare the application for production deployment
 - 💬 Improve conversational memory and response quality
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
