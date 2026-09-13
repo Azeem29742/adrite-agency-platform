@@ -26,8 +26,6 @@ An AI-powered backend system built with **FastAPI** that combines **Retrieval-Au
 
 ## 🏗 Architecture
 
-## 🏗 Architecture
-
 ```text
                     ┌──────────────────┐
                     │    User Query   │
