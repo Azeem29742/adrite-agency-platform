@@ -1,25 +1,67 @@
 # 🚀 AI Chat Assistant with RAG Pipeline
 
-An AI-powered backend system built using FastAPI, integrating Retrieval-Augmented Generation (RAG) with chat history for contextual and intelligent responses.
+An AI-powered backend system built with **FastAPI** that combines **Retrieval-Augmented Generation (RAG)**, conversational chat history, sentiment analysis, and intent prediction to deliver contextual and intelligent responses for Adrite Agency.
 
 ---
 
 ## 🔥 Key Features
 
-- 💬 Chat API with context-aware responses
-- 🧠 RAG pipeline using FAISS + HuggingFace embeddings
-- 📚 Knowledge-based responses (Adrite Agency)
-- 🔁 Chat history integration (last 10 messages)
-- 📊 Sentiment Analysis API
-- 🔮 Intent Prediction API
-- ⚡ FastAPI backend with structured responses
-- 🛠 Clean architecture (services, utils, ai modules)
+- 💬 **Context-Aware Chat API** — Generates responses using conversation context and retrieved knowledge.
+- 🧠 **RAG Pipeline** — Retrieves relevant information from the knowledge base using FAISS and HuggingFace embeddings.
+- 📚 **Agency Knowledge Base** — Provides responses grounded in Adrite Agency-specific information.
+- 🔁 **Conversation History** — Incorporates the last 10 messages to maintain conversational context.
+- 📊 **Sentiment Analysis** — Analyzes the emotional tone of incoming user messages.
+- 🔮 **Intent Prediction** — Identifies the likely intent behind user queries.
+- ⚡ **FastAPI Backend** — Provides structured, scalable REST API endpoints.
+- 🛠️ **Modular Architecture** — Separates AI logic, services, utilities, and API components for maintainability.
 
 ---
 
 ## 🏗 Architecture
 
+## 🏗 Architecture
 
+```text
+                    ┌──────────────────┐
+                    │    User Query   │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │   FastAPI Chat   │
+                    │       API        │
+                    └────────┬─────────┘
+                             │
+              ┌──────────────┴──────────────┐
+              │                             │
+              ▼                             ▼
+     ┌─────────────────┐           ┌─────────────────┐
+     │  Chat History   │           │  RAG Retrieval  │
+     │  Last 10 Msgs   │           │     FAISS       │
+     └────────┬────────┘           └────────┬────────┘
+              │                             │
+              │                    ┌────────▼────────┐
+              │                    │ HuggingFace     │
+              │                    │   Embeddings    │
+              │                    └────────┬────────┘
+              │                             │
+              └──────────────┬──────────────┘
+                             ▼
+                    ┌──────────────────┐
+                    │   Context +      │
+                    │  User Question   │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │  Groq LLaMA 3    │
+                    │       LLM        │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │  AI Response     │
+                    └──────────────────┘
 
 ---
 
